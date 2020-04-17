@@ -1,7 +1,8 @@
 import React from 'react';
-import './App.css';
 
-const App = () => {
+type Props = {};
+
+const App: React.FC<Props> = () => {
   return <h1>React App</h1>;
 };
 

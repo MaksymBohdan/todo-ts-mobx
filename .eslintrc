@@ -5,15 +5,28 @@
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
     "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier/react",
+    "prettier/@typescript-eslint"
   ],
-  "plugins": ["react", "import", "prettier", "jsx-a11y"],
-  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "import",
+    "prettier",
+    "jsx-a11y",
+    "react-hooks",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
 
   "parserOptions": {
     "ecmaVersion": 2018,
+    "tsconfigRootDir": "./",
+    "project": ["./tsconfig.json"],
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -29,6 +42,11 @@
     "no-console": 1,
     "linebreak-style": ["error", "unix"],
     "import/no-default-export": 0,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", "ts", "tsx"] }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
