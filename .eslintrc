@@ -5,13 +5,13 @@
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
     "airbnb-typescript",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
     "plugin:prettier/recommended",
     "prettier/react",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": [
     "react",
@@ -28,6 +28,8 @@
     "tsconfigRootDir": "./",
     "project": ["./tsconfig.json"],
     "sourceType": "module",
+    "createDefaultProgram": true,
+
     "ecmaFeatures": {
       "jsx": true
     }
