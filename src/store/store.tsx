@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react';
-import { observable, configure, action, computed } from 'mobx';
+import { observable, configure, action, computed, runInAction } from 'mobx';
 import { Todo } from '../types';
 
 configure({ enforceActions: 'observed' });
@@ -15,6 +15,9 @@ type RootStoreType = {
   addToEdit: (id: number) => void;
   removeFromEdit: (id: number) => void;
   saveEdit: (id: number, title: string) => void;
+  count: number;
+  incrementCount: () => void;
+  decrementCount: () => void;
 };
 
 const rootStore: RootStoreType = observable(
@@ -74,6 +77,22 @@ const rootStore: RootStoreType = observable(
 
       rootStore.removeFromEdit(id);
     },
+
+    count: 0,
+    incrementCount: () => {
+      setTimeout(() => {
+        runInAction(() => {
+          rootStore.count += 1;
+        });
+      }, 2000);
+    },
+    decrementCount: () => {
+      setTimeout(() => {
+        runInAction(() => {
+          rootStore.count -= 1;
+        });
+      }, 2000);
+    },
   },
   {
     addTodo: action,
@@ -83,6 +102,8 @@ const rootStore: RootStoreType = observable(
     filteredList: computed,
     removeFromEdit: action,
     saveEdit: action,
+    incrementCount: action,
+    decrementCount: action,
   },
 );
 
