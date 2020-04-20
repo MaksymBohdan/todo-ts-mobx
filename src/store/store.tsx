@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react';
-import { observable, configure, action } from 'mobx';
+import { observable, configure, action, computed } from 'mobx';
 import { Todo } from '../types';
 
 configure({ enforceActions: 'observed' });
@@ -9,6 +9,9 @@ type RootStoreType = {
   editingList: number[];
   addTodo: (todoValue: string) => void;
   removeTodo: (id: number) => void;
+  filter: string;
+  updateFilter: (value: string) => void;
+  filteredList: Todo[];
   addToEdit: (id: number) => void;
   removeFromEdit: (id: number) => void;
   saveEdit: (id: number, title: string) => void;
@@ -40,6 +43,20 @@ const rootStore: RootStoreType = observable(
       }
     },
 
+    // filtering
+    filter: '',
+
+    updateFilter: (value: string) => {
+      rootStore.filter = value;
+    },
+
+    get filteredList() {
+      const match = new RegExp(rootStore.filter, 'i');
+
+      return rootStore.list.filter(item => match.test(item.title));
+    },
+
+    // editing
     editingList: [],
 
     addToEdit: (id: number) => {
@@ -62,6 +79,8 @@ const rootStore: RootStoreType = observable(
     addTodo: action,
     removeTodo: action,
     addToEdit: action,
+    updateFilter: action,
+    filteredList: computed,
     removeFromEdit: action,
     saveEdit: action,
   },
