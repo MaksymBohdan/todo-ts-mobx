@@ -6,7 +6,7 @@ import { InputT } from '../types';
 
 const TodoControl = observer(() => {
   const [todoValue, setTodoValue] = useState('');
-  const { addTodo } = useStore();
+  const { addTodo, filter, updateFilter } = useStore();
 
   const addNewTodo = () => {
     addTodo(todoValue);
@@ -16,7 +16,12 @@ const TodoControl = observer(() => {
   return (
     <ControlWrapper>
       <>
-        <Input type="text" placeholder="filer tasks ..." />
+        <Input
+          value={filter}
+          onChange={(e: InputT) => updateFilter(e.target.value)}
+          type="text"
+          placeholder="filer tasks ..."
+        />
       </>
       <div>
         <Input

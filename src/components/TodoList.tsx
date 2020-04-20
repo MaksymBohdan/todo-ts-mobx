@@ -9,12 +9,12 @@ import { InputT, Todo } from '../types';
  */
 
 const TodoList: React.FC<{}> = observer(() => {
-  const { list, editingList } = useStore();
+  const { filteredList, editingList } = useStore();
 
   return (
     <ListWrapper>
       <List>
-        {list.map(item =>
+        {filteredList.map(item =>
           editingList.includes(item.id) ? (
             <EditItemCmp key={item.id} item={item} />
           ) : (
