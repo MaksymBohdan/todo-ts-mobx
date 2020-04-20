@@ -1,31 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react';
+import { useStore } from '../store/store';
+import { InputT, Todo } from '../types';
 
-type Todo = {
-  id: number;
-  title: string;
-  status: boolean;
-};
+/*
+ ** LIST COMPONENT
+ */
 
-type Props = {
-  list: Todo[];
-};
+const TodoList: React.FC<{}> = observer(() => {
+  const { list, editingList } = useStore();
 
-const TodoList: React.FC<Props> = ({ list = [] }) => {
   return (
     <ListWrapper>
       <List>
-        {list.map(({ title }) => (
-          <Item>
-            {title}
-            <ItemControl>
-              <span>&#10000;</span>
-              <span>&#x2716;</span>
-            </ItemControl>
-          </Item>
-        ))}
+        {list.map(item =>
+          editingList.includes(item.id) ? (
+            <EditItemCmp key={item.id} item={item} />
+          ) : (
+            <ItemCmp key={item.id} item={item} />
+          ),
+        )}
       </List>
     </ListWrapper>
+  );
+});
+
+/*
+ ** ITEM COMPONENT
+ */
+
+type ItemProps = {
+  item: Todo;
+};
+
+const ItemCmp: React.FC<ItemProps> = ({ item: { title, id } }) => {
+  const { removeTodo, addToEdit } = useStore();
+
+  return (
+    <Item>
+      <TitleWrapper>{title}</TitleWrapper>
+      <ItemControl>
+        <SymbolElement onClick={() => addToEdit(id)}>&#10000;</SymbolElement>
+        <SymbolElement onClick={() => removeTodo(id)}>&#x2716;</SymbolElement>
+      </ItemControl>
+    </Item>
+  );
+};
+
+/*
+ ** EDIT ITEM COMPONENT
+ */
+
+type EditItemType = {
+  item: Todo;
+};
+
+const EditItemCmp: React.FC<EditItemType> = ({ item: { title, id } }) => {
+  const { removeFromEdit, saveEdit } = useStore();
+  const [editValue, setEditValue] = useState(title || '');
+
+  return (
+    <Item>
+      <TitleWrapper>
+        <input
+          value={editValue}
+          onChange={(e: InputT) => setEditValue(e.target.value)}
+        />
+      </TitleWrapper>
+      <ItemControl>
+        <SymbolElement onClick={() => saveEdit(id, editValue)}>
+          &#10004;
+        </SymbolElement>
+        <SymbolElement onClick={() => removeFromEdit(id)}>
+          &#10140;
+        </SymbolElement>
+      </ItemControl>
+    </Item>
   );
 };
 
@@ -53,12 +104,19 @@ const Item = styled.li`
     margin-bottom: 0;
   }
 `;
+const TitleWrapper = styled.div`
+  height: 20px;
+`;
 
 const ItemControl = styled.div`
   width: 35px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const SymbolElement = styled.span`
+  cursor: pointer;
 `;
 
 export default TodoList;
