@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SectionTitle from './SectionTitle';
 import TodoControl from './TodoControl';
 import TodoList from './TodoList';
+import Counter from './Counter';
 
 type Props = {};
 
@@ -12,6 +13,8 @@ const App: React.FC<Props> = () => {
       <SectionTitle title="Todo list" />
       <TodoControl />
       <TodoList />
+      <SectionTitle title="Async Counter" />
+      <Counter />
     </Wrapper>
   );
 };
