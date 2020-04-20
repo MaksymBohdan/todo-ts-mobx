@@ -1,21 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react';
+import { useStore } from '../store/store';
+import { InputT } from '../types';
 
-const TodoControl = () => {
+const TodoControl = observer(() => {
+  const [todoValue, setTodoValue] = useState('');
+  const { addTodo } = useStore();
+
+  const addNewTodo = () => {
+    addTodo(todoValue);
+    setTodoValue('');
+  };
+
   return (
     <ControlWrapper>
       <>
         <Input type="text" placeholder="filer tasks ..." />
       </>
       <div>
-        <Input type="text" placeholder="new task ..." />
-        <Button type="button">Add</Button>
+        <Input
+          type="text"
+          placeholder="new task ..."
+          value={todoValue}
+          onChange={(e: InputT) => setTodoValue(e.target.value)}
+        />
+        <Button type="button" onClick={addNewTodo}>
+          Add
+        </Button>
       </div>
     </ControlWrapper>
   );
-};
+});
 
-const Input = styled.input`
+const Input = styled.input<any>`
   width: 300px;
   padding: 10px 15px;
 `;
