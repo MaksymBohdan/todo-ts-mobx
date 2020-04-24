@@ -1,18 +1,19 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { useStore } from '../store/store';
+import { useStoreContext } from '../store/store';
 
 const Counter = observer(() => {
-  const { count, incrementCount, decrementCount } = useStore();
+  const { counter } = useStoreContext();
+  const { count, increment, decrement } = counter;
 
   return (
     <CounterWrapper>
-      <Button type="button" onClick={incrementCount}>
+      <Button type="button" onClick={increment}>
         +
       </Button>
       <Count>{count}</Count>
-      <Button type="button" onClick={decrementCount}>
+      <Button type="button" onClick={decrement}>
         -
       </Button>
     </CounterWrapper>
