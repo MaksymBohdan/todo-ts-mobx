@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import { useStore } from '../store/store';
+import { useStoreContext } from '../store/store';
 import { InputT } from '../types';
 
 const TodoControl = observer(() => {
   const [todoValue, setTodoValue] = useState('');
-  const { addTodo, filter, updateFilter } = useStore();
+
+  const { todos } = useStoreContext();
+  const { addTodo, filter, updateFilter } = todos;
 
   const addNewTodo = () => {
     addTodo(todoValue);

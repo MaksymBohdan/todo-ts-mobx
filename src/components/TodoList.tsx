@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import { useStore } from '../store/store';
+import { useStoreContext } from '../store/store';
 import { InputT, Todo } from '../types';
 
 /*
@@ -9,7 +9,8 @@ import { InputT, Todo } from '../types';
  */
 
 const TodoList: React.FC<{}> = observer(() => {
-  const { filteredList, editingList } = useStore();
+  const { todos } = useStoreContext();
+  const { filteredList, editingList } = todos;
 
   return (
     <ListWrapper>
@@ -35,7 +36,8 @@ type ItemProps = {
 };
 
 const ItemCmp: React.FC<ItemProps> = ({ item: { title, id } }) => {
-  const { removeTodo, addToEdit } = useStore();
+  const { todos } = useStoreContext();
+  const { removeTodo, addToEdit } = todos;
 
   return (
     <Item>
@@ -57,8 +59,10 @@ type EditItemType = {
 };
 
 const EditItemCmp: React.FC<EditItemType> = ({ item: { title, id } }) => {
-  const { removeFromEdit, saveEdit } = useStore();
   const [editValue, setEditValue] = useState(title || '');
+
+  const { todos } = useStoreContext();
+  const { removeFromEdit, saveEdit } = todos;
 
   return (
     <Item>
